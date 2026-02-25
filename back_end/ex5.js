@@ -12,7 +12,8 @@ async function calcular() {
     const op = await rl.question('Operador (+, -, *, /, **, %, sqrt, ++, --): ');
 
     let n2;
-    if (!['sqrt', '++', '--'].includes(op)) {
+
+    if (op !== 'sqrt') {
       n2 = parseFloat(await rl.question('Segundo número: '));
     }
 
@@ -23,16 +24,31 @@ async function calcular() {
       '/': (a, b) => b !== 0 ? a / b : "Divisão por zero!",
       '**': (a, b) => a ** b,
       '%': (a, b) => a % b,
-      'sqrt': (a) => a >= 0 ? Math.sqrt(a) : "Raiz de número negativo!",
-      '++': (a) => a + 1,
-      '--': (a) => a - 1
+      'sqrt': (a) => a >= 0 ? Math.sqrt(a) : "Raiz de número negativo!"
     };
 
-    const resultado = operacoes[op]
-      ? operacoes[op](n1, n2)
-      : "Operador inválido";
+    // 🔹 Se for ++ ou --, faz apenas a contagem
+    if (op === '++') {
+      console.log("\nContagem crescente:");
+      for (let i = n1; i <= n2; i++) {
+        console.log(`Contagem: ${i}`);
+      }
+    } 
+    
+    else if (op === '--') {
+      console.log("\nContagem regressiva:");
+      for (let i = n1; i >= n2; i--) {
+        console.log(`Contagem: ${i}`);
+      }
+    } 
+    
+    else {
+      const resultado = operacoes[op]
+        ? operacoes[op](n1, n2)
+        : "Operador inválido";
 
-    console.log(`\nResultado: ${resultado}`);
+      console.log(`\nResultado: ${resultado}`);
+    }
 
   } catch (err) {
     console.error("Ocorreu um erro na leitura.");
